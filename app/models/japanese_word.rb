@@ -1,0 +1,2 @@
+class JapaneseWord < ApplicationRecord
+end
