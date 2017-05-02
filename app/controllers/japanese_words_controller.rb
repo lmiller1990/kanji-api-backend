@@ -3,7 +3,7 @@ class JapaneseWordsController < ApplicationController
     search_terms = params[:radicals]
     query = ""
     search_terms.each_with_index do |radical, idx| 
-      query << "radicals LIKE '%#{radical}'"
+      query << "radicals LIKE '%#{radical}%'"
       query << " AND " unless idx + 1 == search_terms.length
     end
 
