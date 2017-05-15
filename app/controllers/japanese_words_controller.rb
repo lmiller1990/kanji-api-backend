@@ -11,4 +11,11 @@ class JapaneseWordsController < ApplicationController
 
     json_response(words)
   end
+
+  def meaning
+    word = params[:word]
+    definition = JapaneseWord.where(word: word)
+
+    json_response(definition)
+  end
 end
