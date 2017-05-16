@@ -12,8 +12,39 @@ class JapaneseWordsController < ApplicationController
     json_response(words)
   end
 
+  def meaning_by_kanji_and_radicals
+    radicals = params[:radicals]
+    kanji = params[:kanji]
+
+    radicalQuery = ""
+    radicals.each_with_index do |rad, idx|
+      radicalQuery << "radicals LIKE '%#{rad}%'" 
+      radicalQuery << " AND " unless idx + 1 == radicals.length
+    end
+
+    wordQuery = ""
+    kanji.each_with_index do |kan, idx| 
+      wordQuery << "word LIKE '%#{kan}%'"
+      wordQuery << " AND " unless idx + 1 == kanji.length
+    end
+
+    query = ""
+    if radicals.length > 0 && kanji.length > 0
+      query = radicalQuery << " AND " << wordQuery
+    elsif radicalQuery.length == 0 && kanji.length > 0
+      query = wordQuery
+    else
+      query = radicalQuery
+    end
+
+    words = JapaneseWord.where(query)
+
+    json_response(words)
+  end
+
   def meaning
     word = params[:word]
+
     definition = JapaneseWord.where(word: word)
 
     json_response(definition)

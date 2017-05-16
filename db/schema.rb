@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170501143457) do
+ActiveRecord::Schema.define(version: 20170516122438) do
 
   create_table "japanese_words", force: :cascade do |t|
     t.string "word"
@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 20170501143457) do
     t.string "radicals"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "hiragana"
   end
 
   create_table "radicals", force: :cascade do |t|
