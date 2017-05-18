@@ -15,7 +15,8 @@ class JapaneseWordsController < ApplicationController
   def meaning_by_kanji_and_radicals
     radicals = params[:radicals]
     kanji = params[:kanji]
-
+    length = params[:length]
+    p length
     radicalQuery = ""
     radicals.each_with_index do |rad, idx|
       radicalQuery << "radicals LIKE '%#{rad}%'" 
@@ -37,6 +38,7 @@ class JapaneseWordsController < ApplicationController
       query = radicalQuery
     end
 
+    query << " AND length(japanese_words.word) > #{length}"
     words = JapaneseWord.where(query)
 
     json_response(words)
@@ -45,7 +47,7 @@ class JapaneseWordsController < ApplicationController
   def meaning
     word = params[:word]
 
-    definition = JapaneseWord.where(word: word)
+    definition = JapaneseWord.where(word: word).or(JapaneseWord.where(hiragana: word))
 
     json_response(definition)
   end
