@@ -19,6 +19,7 @@ class JapaneseWordsController < ApplicationController
     p length
     radicalQuery = ""
     radicals.each_with_index do |rad, idx|
+
       radicalQuery << "radicals LIKE '%#{rad}%'" 
       radicalQuery << " AND " unless idx + 1 == radicals.length
     end
@@ -38,7 +39,7 @@ class JapaneseWordsController < ApplicationController
       query = radicalQuery
     end
 
-    query << " AND length(japanese_words.word) > #{length}"
+    query << " AND length(japanese_words.word) = #{length}"
     words = JapaneseWord.where(query)
 
     json_response(words)
